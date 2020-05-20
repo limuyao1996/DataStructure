@@ -89,6 +89,14 @@ public class Array<E> {
         return data[index];
     }
 
+    public E getLast() {
+        return get(size - 1);
+    }
+
+    public E getFirst() {
+        return get(0);
+    }
+
     /**
      * 设置指定位置的元素值
      * @param index 元素下标
