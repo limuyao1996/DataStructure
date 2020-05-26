@@ -2,13 +2,23 @@
 public class Main {
 
     public static void main(String[] args) {
-        ArrayStack<Integer> stack = new ArrayStack<>();
 
+        LinkedList<Integer> linkedList = new LinkedList<>();
         for (int i = 0; i < 5; i++) {
-            stack.push(i);
-            System.out.println(stack);
+            linkedList.addFirst(i);
+            System.out.println(linkedList);
         }
-        stack.pop();
-        System.out.println(stack);
+
+        linkedList.add(2, 666);
+        System.out.println(linkedList);
+
+        linkedList.remove(2);
+        System.out.println(linkedList);
+
+        linkedList.removeFirst();
+        System.out.println(linkedList);
+
+        linkedList.removeLast();
+        System.out.println(linkedList);
     }
 }
