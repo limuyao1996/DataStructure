@@ -1,4 +1,4 @@
-import java.util.Arrays;
+package queue;
 
 public class LoopQueue<E> implements Queue<E> {
     private E[] data;
@@ -53,7 +53,7 @@ public class LoopQueue<E> implements Queue<E> {
     @Override
     public E getFront() {
         if (isEmpty()) {
-            throw new IllegalArgumentException("Queue is empty.");
+            throw new IllegalArgumentException("queue.Queue is empty.");
         }
         return data[front];
     }
@@ -66,7 +66,7 @@ public class LoopQueue<E> implements Queue<E> {
     @Override
     public String toString() {
         StringBuilder res = new StringBuilder();
-        res.append(String.format("Queue: size = %d, capacity = %d\n", size, getCapacity()));
+        res.append(String.format("queue.Queue: size = %d, capacity = %d\n", size, getCapacity()));
         res.append("front [");
         for (int i = front; i != tail; i = (i + 1) % data.length) {
             res.append(data[i]);
