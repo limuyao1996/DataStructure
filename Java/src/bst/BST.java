@@ -1,5 +1,9 @@
 package bst;
 
+import common.Array;
+import stack.ArrayStack;
+import stack.Stack;
+
 public class BST<E extends Comparable> {
 
     private class Node {
@@ -97,6 +101,24 @@ public class BST<E extends Comparable> {
     }
 
     /**
+     * 二分搜索树的非递归前序遍历
+     */
+    public void preOrderNR() {
+        Stack<Node> stack = new ArrayStack<>();
+        stack.push(root);
+        while (!stack.isEmpty()) {
+            Node cur = stack.pop();
+            System.out.println(cur.e);
+            if (cur.right != null) {
+                stack.push(cur.right);
+            }
+            if (cur.left != null) {
+                stack.push(cur.left);
+            }
+        }
+    }
+
+    /**
      * 二分搜索树中序遍历
      */
     public void inOrder() {
@@ -110,6 +132,38 @@ public class BST<E extends Comparable> {
         inOrder(node.left);
         System.out.println(node.e);
         inOrder(node.right);;
+    }
+
+    public void inOrderNR() {
+        Stack<Node> stack = new ArrayStack<>();
+        Array<E> visitedNodes = new Array<>();
+        stack.push(root);
+        while (!stack.isEmpty()) {
+            Node cur = stack.peek();
+            if (!visitedNodes.contains(cur.e)) {
+                if (cur.left == null) {
+                    System.out.println(cur.e);
+                    visitedNodes.addLast(cur.e);
+                    stack.pop();
+                    if (cur.right != null) {
+                        stack.push(cur.right);
+                    }
+                } else {
+                    if (!visitedNodes.contains(cur.left.e)) {
+                        stack.push(cur.left);
+                    } else {
+                        System.out.println(cur.e);
+                        visitedNodes.addLast(cur.e);
+                        stack.pop();
+                        if (cur.right != null) {
+                            stack.push(cur.right);
+                        }
+                    }
+                }
+            } else {
+                stack.pop();
+            }
+        }
     }
 
     /**
@@ -162,16 +216,19 @@ public class BST<E extends Comparable> {
 
     public static void main(String[] args) {
         BST<Integer> bst = new BST<>();
-        int[] nums = { 5, 3, 6, 8, 4, 2 };
+        int[] nums = { 10, 11, 14, 5, 3, 6, 8, 4, 2, 7, 9, 12, 34, 0 };
         for (int num: nums) {
             bst.add(num);
         }
-        bst.preOrder();
-        System.out.println();
+//        bst.preOrder();
+//        System.out.println();
+//        bst.preOrderNR();
+//        System.out.println();
         bst.inOrder();
         System.out.println();
-        bst.postOrder();
+        bst.inOrderNR();
         System.out.println();
-        System.out.println(bst);
+//        bst.postOrder();
+//        System.out.println();
     }
 }
