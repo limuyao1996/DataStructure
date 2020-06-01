@@ -1,6 +1,8 @@
 package bst;
 
 import common.Array;
+import queue.ArrayQueue;
+import queue.Queue;
 import stack.ArrayStack;
 import stack.Stack;
 
@@ -134,6 +136,9 @@ public class BST<E extends Comparable> {
         inOrder(node.right);;
     }
 
+    /**
+     * 二分搜索树中序遍历非递归实现
+     */
     public void inOrderNR() {
         Stack<Node> stack = new ArrayStack<>();
         Array<E> visitedNodes = new Array<>();
@@ -182,6 +187,146 @@ public class BST<E extends Comparable> {
         System.out.println(node.e);
     }
 
+    /**
+     * 层序遍历
+     */
+    public void levelOrder() {
+        Queue<Node> q = new ArrayQueue<>();
+        q.enqueue(root);
+        while(!q.isEmpty()) {
+            Node cur = q.dequeue();
+            System.out.println(cur.e);
+
+            if (cur.left != null) {
+                q.enqueue(cur.left);
+            }
+            if (cur.right != null) {
+                q.enqueue(cur.right);
+            }
+        }
+    }
+
+    /**
+     * 寻找二分搜索树中最小的元素
+     * @return 最小元素
+     */
+    public E minimum() {
+        if (size == 0)
+            throw new IllegalArgumentException("BST is empty!");
+
+        return minimum(root).e;
+    }
+
+    private Node  minimum(Node node) {
+        if (node.left == null)
+            return node;
+        return minimum(node.left);
+    }
+
+    /**
+     * 查找最大值
+     * @return 最大值
+     */
+    public E maxmum() {
+        if (size == 0)
+            throw new IllegalArgumentException("BST is empty!");
+        return maxmum(root).e;
+    }
+
+    private Node maxmum(Node node) {
+        if (node.right == null) {
+            return node;
+        }
+        return maxmum(node.right);
+    }
+
+    /**
+     * 从二分搜索树中删除最小值
+     * @return 最小值
+     */
+    public E removeMin() {
+        E ret = minimum();
+        root = removeMin(root);
+        return ret;
+    }
+
+    private Node removeMin(Node node) {
+        if (node.left == null) {
+            Node rightNode = node.right;
+            node.right = null;
+            size--;
+            return rightNode;
+        }
+
+        node.left = removeMin(node.left);
+        return node;
+    }
+
+    /**
+     * 删除最大值
+     * @return 最大值
+     */
+    public E removeMax() {
+        E ret = maxmum();
+        root = removeMax(root);
+        return ret;
+    }
+
+    private Node removeMax(Node node) {
+        if (node.right == null) {
+            Node leftNode = node.left;
+            node.left = null;
+            size--;
+            return leftNode;
+        }
+
+        node.right = removeMax(node.right);
+        return node;
+    }
+
+    public void remove(E e) {
+        root = remove(root, e);
+    }
+
+    private Node remove(Node node, E e) {
+        if (node == null)
+            return null;
+
+        if (e.compareTo(node.e) < 0) {
+            node.left = remove(node.left, e);
+            return node;
+        } else if (e.compareTo(node.e) > 0) {
+            node.right = remove(node.right, e);
+            return node;
+        } else {
+            // 待删除节点左子树为空
+            if (node.left == null) {
+                Node rightNode = node.right;
+                node.right = null;
+                size--;
+                return rightNode;
+            }
+            // 待删除节点右子树为空
+            if (node.right == null) {
+                Node leftNode = node.left;
+                node.left = null;
+                size--;
+                return leftNode;
+            }
+
+            // 待删除节点左右子树均不为空
+            // 找到毕待删除节点大的最小节点，及待删除节点右子树的最小节点
+            // 用这个节点顶替待删除节点的位置
+            Node successor = minimum(node.right);
+            successor.right = removeMin(node.right);
+            successor.left = node.left;
+            node.left = node.right = null;
+
+            return successor;
+        }
+    }
+
+
     @Override
     public String toString() {
         StringBuilder res = new StringBuilder();
@@ -216,7 +361,7 @@ public class BST<E extends Comparable> {
 
     public static void main(String[] args) {
         BST<Integer> bst = new BST<>();
-        int[] nums = { 10, 11, 14, 5, 3, 6, 8, 4, 2, 7, 9, 12, 34, 0 };
+        int[] nums = { 5, 3, 6, 8, 4, 2};
         for (int num: nums) {
             bst.add(num);
         }
@@ -224,11 +369,13 @@ public class BST<E extends Comparable> {
 //        System.out.println();
 //        bst.preOrderNR();
 //        System.out.println();
-        bst.inOrder();
-        System.out.println();
-        bst.inOrderNR();
-        System.out.println();
+//        bst.inOrder();
+//        System.out.println();
+//        bst.inOrderNR();
+//        System.out.println();
 //        bst.postOrder();
 //        System.out.println();
+        bst.levelOrder();
+        System.out.println();
     }
 }
