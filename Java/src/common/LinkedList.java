@@ -112,6 +112,26 @@ public class LinkedList<E> {
     }
 
     /**
+     * 从链表中删除元素e
+     * @param e 要删除的元素ß
+     */
+    public void removeElement(E e) {
+        Node prev = dummyHead;
+        while (prev.next != null) {
+            if (prev.next.e.equals(e)) {
+                break;
+            }
+            prev = prev.next;
+        }
+
+        if (prev.next != null) {
+            Node delNode = prev.next;
+            prev.next = delNode.next;
+            delNode.next = null;
+        }
+    }
+
+    /**
      * 获取链表的第index（0-based）个位置的元素
      * @param index 位置
      * @return 位置index上的元素
