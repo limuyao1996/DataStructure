@@ -68,6 +68,23 @@ public class Trie {
         return cur.isWord;
     }
 
+    /**
+     * 查询Trie中是否有单词以prefix作前缀
+     * @param prefix
+     * @return
+     */
+    public boolean isPrefix(String prefix) {
+        Node cur = root;
+        for (int i = 0; i < prefix.length(); i++) {
+            char c = prefix.charAt(i);
+            if (cur.next.get(c) == null) {
+                return false;
+            }
+            cur = cur.next.get(c);
+        }
+        return true;
+    }
+
     public static void main(String[] args) {
 
     }
