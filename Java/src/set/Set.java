@@ -1,4 +1,4 @@
-package bstSet;
+package set;
 
 public interface Set<E> {
     void Add(E e);

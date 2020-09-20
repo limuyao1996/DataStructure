@@ -1,4 +1,4 @@
-package bstSet;
+package set;
 
 import common.LinkedList;
 
